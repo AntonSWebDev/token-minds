@@ -1,0 +1,343 @@
+// Переменные /////////////////////////////////////////////////////////////////////////////////////
+
+$maxWidth: 1600;
+$maxWidthContainer: 1200;
+
+$mainColor: #C800C8;
+$textColor: #676668;
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Миксины ////////////////////////////////////////////////////////////////////////////////////////
+
+@mixin adaptive-value ($property, $startSize, $minSize, $type) {
+  $addSize: $startSize - $minSize;
+
+  @if $type==1 {
+    // Толко если меньше контейнера
+    #{$property}: $startSize + px;
+
+    @media (max-width: #{$maxWidthContainer + px}) {
+      #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidthContainer - 320}));
+    }
+  }
+
+  @else if $type==2 {
+    // Только если больше контейнера
+    #{$property}: $startSize + px;
+
+    @media (min-width: #{$maxWidthContainer + px}) {
+      #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320}));
+    }
+  }
+
+  @else {
+    // Всегда 
+    #{$property}: calc(#{$minSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth - 320}));
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Шаблоны ////////////////////////////////////////////////////////////////////////////////////////
+
+%montserrat-400 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+}
+
+
+%montserrat-500 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+}
+
+
+%montserrat-600 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+
+%montserrat-700 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+%raleway-400 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+}
+
+%raleway-600 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+}
+
+%raleway-700 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Глобальные настройки ///////////////////////////////////////////////////////////////////////////
+
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img {
+ display: block;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+}
+
+body {
+  @extend %montserrat-400;
+  height: 100%;
+  color: $textColor;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  display: inline-block;
+}
+
+input {
+  background: no-clip;
+  background: transparent;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  display: inline-block;
+  padding: 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Блоки //////////////////////////////////////////////////////////////////////////////////////////
+
+.container {
+  max-width: $maxWidthContainer + px;
+  padding: 0 20px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.visually-hidden:not(:focus):not(:active),
+input[type="checkbox"].visually-hidden,
+input[type="radio"].visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  bottom: 0;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(100%);
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+}
+
+.page {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.footer {
+  margin-top: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.lock {
+  overflow: hidden;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s ease;
+  z-index: 50;
+  cursor: pointer;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.ibg {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+
+  img {
+    display: none;
+  }
+}
+
+.form {
+  max-width: 655px;
+  width: 100%;
+  border: 18px solid rgba(255, 255, 255, .2);
+  box-shadow: 0px 6.44081px 8.58774px rgba(0, 0, 0, 0.16);
+  text-align: center;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, .94);
+    width: 100%;
+    height: 100%;
+    padding: 0px 30px 40px;
+    @include adaptive-value("padding-top", 55, 60, 1);
+    @include adaptive-value("padding-left", 30, 15, 1);
+    @include adaptive-value("padding-right", 30, 15, 1);
+  }
+
+  &__title {
+    @extend %montserrat-700;
+    @include adaptive-value("font-size", 30, 24, 1);
+    line-height: 120%;
+    text-transform: capitalize;
+    color: #000000;
+    position: relative;
+    margin-bottom: 29px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -17px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      width: 47px;
+      height: 1px;
+      background: #000;
+    }
+  }
+
+  &__label {
+    @extend %montserrat-500;
+    display: block;
+    line-height: 26px;
+    text-transform: capitalize;
+    color: #9D9A9A;
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  &__input {
+    display: block;
+    width: 100%;
+    height: 50px;
+    padding: 0 15px 0;
+    background: rgba(230, 220, 241, 0.7);
+    opacity: 0.8;
+    border: 1px solid rgba(200, 0, 200, 0.3);
+    margin-bottom: 17px;
+    outline: none;
+
+    &::placeholder {
+      @extend %montserrat-500;
+      font-size: 16px;
+      line-height: 28px;
+      color: #9D9A9A;
+    }
+
+    &:focus {
+      border: 3px solid rgba(200, 0, 200, 0.5);
+    }
+  }
+
+  &__text {
+    @extend %montserrat-500;
+    line-height: 24px;
+    text-transform: capitalize;
+    color: #9D9A9A;
+    margin-bottom: 30px;
+  }
+
+  @media (max-width: 1100px) {
+    margin: 0px auto 60px;
+    max-width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    &__wrapper {
+      padding: 60px 25px 40px;
+    }
+
+    &__btn {
+      padding: 15px 0;
+    }
+
+    &__text {
+      margin-bottom: 40px;
+    }
+  }
+}
+
+.title {
+  @extend %montserrat-700;
+  text-align: center;
+  @include adaptive-value("font-size", 55, 40, 1);
+  @include adaptive-value("line-height", 65, 50, 1);
+  letter-spacing: 0.03em;
+  text-transform: capitalize;
+  color: #000;
+}
+
+.btn {
+  padding: 15px;
+  width: 100%;
+  background: $mainColor;
+  @extend %montserrat-600;
+  font-size: 16px;
+  line-height: 26px;
+  text-transform: capitalize;
+  color: #FFFFFF;
+  transition: all .3s ease;
+  border: 3px solid $mainColor;
+
+  &:focus {
+    background: #fff;
+    color: $mainColor;
+  }
+
+  @media (min-width: 768px) {
+    &:hover {
+      background: #fff;
+      color: $mainColor;
+    }
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////

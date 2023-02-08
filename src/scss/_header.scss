@@ -1,0 +1,126 @@
+.header {
+ position: relative;
+
+ &__wrapper {
+  padding: 0 0 47px;
+  @include adaptive-value("padding-top", 98, 80, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+ }
+
+ &__column {
+  &:nth-child(1) {
+   margin-right: 36px;
+   width: 68%;
+  }
+ }
+
+ &__title {
+  @extend %montserrat-700;
+  width: 100%;
+  max-width: 735px;
+  @include adaptive-value("font-size", 80, 35, 1);
+  @include adaptive-value("line-height", 95, 58, 1);
+  @include adaptive-value("margin-bottom", 70, 35, 1);
+  letter-spacing: 0.03em;
+  text-transform: capitalize;
+  color: #EDEDED;
+ }
+
+ &__brands {
+  max-width: 410px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+ }
+
+ &__brand {
+  display: block;
+  margin-bottom: 30px;
+  max-width: 260px;
+  height: 42px;
+  transition: all .3s ease;
+
+  &:focus {
+   transform: scale(1.1);
+  }
+  
+  @media (min-width: 768px) {
+   &:hover {
+    transform: scale(1.1);
+   }
+  }
+ }
+
+ .ibg {
+  background-attachment: fixed;
+ }
+
+ &__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+ }
+
+ @media (max-width: 1100px) {
+  &__wrapper {
+   flex-direction: column;
+  }
+
+  &__column {
+   width: 100%;
+
+   &:nth-child(1) {
+    margin-right: 0;
+    width: unset;
+   }
+
+   &:nth-child(3) {
+    display: inline-block;
+    margin: 0 auto;
+   }
+  }
+
+  &__title {
+   max-width: unset;
+  }
+
+  &__brands {
+   margin: 0 auto;
+   max-width: 500px;
+  }
+ }
+
+ @media (max-width: 768px) {
+  .ibg {
+   background-attachment: unset;
+  }
+ }
+
+ @media (max-width: 425px) {
+  &__brands {
+   justify-content: space-evenly;
+  }
+
+  &__column--brands-mobile {
+   display: none;
+  }
+
+  &__brand {
+   width: 140px;
+
+   img,
+   source {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+   }
+  }
+ }
+}
